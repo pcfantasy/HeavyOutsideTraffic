@@ -33,11 +33,14 @@ namespace HeavyOutsideTraffic
 
                     for (int i = num5; i <= num6; i = i + 1)
                     {
-                        if (instance.m_buildings.m_buffer[i].Info.m_buildingAI is OutsideConnectionAI)
+                        if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && (!instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted)))
                         {
-                            if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Road)
+                            if (instance.m_buildings.m_buffer[i].Info.m_buildingAI is OutsideConnectionAI)
                             {
-                                ProcessDummyTraffic((ushort)i, ref instance.m_buildings.m_buffer[i]);
+                                if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Road)
+                                {
+                                    ProcessDummyTraffic((ushort)i, ref instance.m_buildings.m_buffer[i]);
+                                }
                             }
                         }
                     }
