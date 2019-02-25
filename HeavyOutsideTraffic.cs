@@ -17,7 +17,9 @@ namespace HeavyOutsideTraffic
         public static int bTraffic = 0;
         public static int cTraffic = 0;
         public static int dTraffic = 0;
+        public static bool disableCollisionCheck = false;
         public static int nonHighwayScale = 0;
+        public static int languageIdex = 0;
 
         public string Name
         {
@@ -43,19 +45,35 @@ namespace HeavyOutsideTraffic
 
         public void OnSettingsUI(UIHelperBase helper)
         {
-
             LoadSetting();
-            UIHelperBase group = helper.AddGroup("SideA Traffic(A侧车流)");
-            group.AddDropdown("Traffic Select(车流选择)", new string[] { "Low Traffic(低车流量)", "Medium Traffic(中等车流量)", "Heavy Traffic(大车流量)" }, aTraffic, (index) => GetEffortIdex(index));
+            HeavyOutsideTrafficThreading.CheckLanguage();
+            UIHelperBase group = helper.AddGroup(Language.Strings[0]);
+            group.AddDropdown(Language.Strings[4], new string[] { Language.Strings[5], Language.Strings[6], Language.Strings[7] }, aTraffic, (index) => GetEffortIdex(index));
 
-            UIHelperBase group1 = helper.AddGroup("SideB Traffic(B侧车流)");
-            group1.AddDropdown("Traffic Select(车流选择)", new string[] { "Low Traffic(低车流量)", "Medium Traffic(中等车流量)", "Heavy Traffic(大车流量)" }, bTraffic, (index1) => GetEffortIdex1(index1));
+            UIHelperBase group1 = helper.AddGroup(Language.Strings[1]);
+            group1.AddDropdown(Language.Strings[4], new string[] { Language.Strings[5], Language.Strings[6], Language.Strings[7] }, bTraffic, (index1) => GetEffortIdex1(index1));
 
-            UIHelperBase group2 = helper.AddGroup("SideC Traffic(C侧车流)");
-            group2.AddDropdown("Traffic Select(车流选择)", new string[] { "Low Traffic(低车流量)", "Medium Traffic(中等车流量)", "Heavy Traffic(大车流量)" }, cTraffic, (index2) => GetEffortIdex2(index2));
+            UIHelperBase group2 = helper.AddGroup(Language.Strings[2]);
+            group2.AddDropdown(Language.Strings[4], new string[] { Language.Strings[5], Language.Strings[6], Language.Strings[7] }, cTraffic, (index2) => GetEffortIdex2(index2));
 
-            UIHelperBase group3 = helper.AddGroup("SideD Traffic(D侧车流)");
-            group3.AddDropdown("Traffic Select(车流选择)", new string[] { "Low Traffic(低车流量)", "Medium Traffic(中等车流量)", "Heavy Traffic(大车流量)" }, dTraffic, (index3) => GetEffortIdex3(index3));
+            UIHelperBase group3 = helper.AddGroup(Language.Strings[3]);
+            group3.AddDropdown(Language.Strings[4], new string[] { Language.Strings[5], Language.Strings[6], Language.Strings[7] }, dTraffic, (index3) => GetEffortIdex3(index3));
+
+            UIHelperBase group4 = helper.AddGroup(Language.Strings[13]);
+            group4.AddCheckbox(Language.Strings[14], disableCollisionCheck, (index) => IsDisableCollisionCheck(index));
+        }
+
+        public void IsDisableCollisionCheck(bool index)
+        {
+            disableCollisionCheck = index;
+            if (index)
+            {
+                Loader.Detour();
+            }
+            else
+            {
+                Loader.RevertDetour();
+            }
 
             SaveSetting();
         }
@@ -69,6 +87,7 @@ namespace HeavyOutsideTraffic
             streamWriter.WriteLine(bTraffic);
             streamWriter.WriteLine(cTraffic);
             streamWriter.WriteLine(dTraffic);
+            streamWriter.WriteLine(disableCollisionCheck);
             streamWriter.Flush();
             fs.Close();
         }
@@ -137,6 +156,17 @@ namespace HeavyOutsideTraffic
                 else
                 {
                     dTraffic = 0;
+                }
+
+                strLine = sr.ReadLine();
+
+                if (strLine == "True")
+                {
+                    disableCollisionCheck = true;
+                }
+                else
+                {
+                    disableCollisionCheck = false;
                 }
 
                 sr.Close();

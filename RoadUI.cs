@@ -60,7 +60,7 @@ namespace HeavyOutsideTraffic
         private void ShowOnGui()
         {
             this.Type = base.AddUIComponent<UILabel>();
-            this.Type.text = "Type(类型)";
+            this.Type.text = Language.Strings[8];
             this.Type.relativePosition = new Vector3(SPACING, 20f);
             this.Type.autoSize = true;
         }
@@ -83,19 +83,19 @@ namespace HeavyOutsideTraffic
                     {
                         if (x > 8000)
                         {
-                            this.Type.text = "Type(类型): A outside(A侧外部连接)";
+                            this.Type.text = Language.Strings[8] + Language.Strings[9];
                         }
                         else if (z > 8000)
                         {
-                            this.Type.text = "Type(类型): B outside(B侧外部连接)";
+                            this.Type.text = Language.Strings[8] + Language.Strings[10];
                         }
                         else if (x < -8000)
                         {
-                            this.Type.text = "Type(类型): C outside(C侧外部连接)";
+                            this.Type.text = Language.Strings[8] + Language.Strings[11];
                         }
                         else if (z < -8000)
                         {
-                            this.Type.text = "Type(类型): D outside(D侧外部连接)";
+                            this.Type.text = Language.Strings[8] + Language.Strings[12];
                         }
                         else
                         {

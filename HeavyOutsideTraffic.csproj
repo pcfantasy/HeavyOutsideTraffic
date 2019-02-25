@@ -28,6 +28,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
@@ -61,10 +62,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomCarAI.cs" />
     <Compile Include="DebugLog.cs" />
     <Compile Include="HeavyOutsideTraffic.cs" />
+    <Compile Include="Language.cs" />
     <Compile Include="Loader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RedirectionHelper.cs" />
     <Compile Include="RoadUI.cs" />
     <Compile Include="Threading.cs" />
   </ItemGroup>

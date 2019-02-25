@@ -12,6 +12,34 @@ namespace HeavyOutsideTraffic
 {
     public class HeavyOutsideTrafficThreading : ThreadingExtensionBase
     {
+        public override void OnBeforeSimulationFrame()
+        {
+            base.OnBeforeSimulationFrame();
+            if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
+            {
+                if (HeavyOutsideTraffic.IsEnabled)
+                {
+                    //Check language
+                    CheckLanguage();
+                }
+            }
+        }
+
+        public static void CheckLanguage()
+        {
+            if (SingletonLite<LocaleManager>.instance.language.Contains("zh") && (HeavyOutsideTraffic.languageIdex == 1))
+            {
+            }
+            else if (!SingletonLite<LocaleManager>.instance.language.Contains("zh") && (HeavyOutsideTraffic.languageIdex != 1))
+            {
+            }
+            else
+            {
+                HeavyOutsideTraffic.languageIdex = (byte)(SingletonLite<LocaleManager>.instance.language.Contains("zh") ? 1 : 0);
+                Language.LanguageSwitch((byte)HeavyOutsideTraffic.languageIdex);
+            }
+        }
+
         public override void OnAfterSimulationFrame()
         {
             base.OnAfterSimulationFrame();
@@ -23,7 +51,6 @@ namespace HeavyOutsideTraffic
                     int num4 = (int)(currentFrameIndex & 255u);
                     int num5 = num4 * 192;
                     int num6 = (num4 + 1) * 192 - 1;
-                    //DebugLog.LogToFileOnly("currentFrameIndex num2 = " + currentFrameIndex.ToString());
                     BuildingManager instance = Singleton<BuildingManager>.instance;
 
                     if (num4 == 255)
@@ -60,10 +87,8 @@ namespace HeavyOutsideTraffic
                 if (segment != 0)
                 {
                     NetInfo info = instance.m_segments.m_buffer[(int)segment].Info;
-                    //DebugLog.LogToFileOnly("outside connection building is " + info.m_lanes.Length.ToString());
                     for (int j = 0; j < info.m_lanes.Length; j++)
                     {
-                        //DebugLog.LogToFileOnly("outside connection lane is " + info.m_lanes[j].m_direction.ToString());
                         if (info.m_lanes[j].m_direction != NetInfo.Direction.None)
                         {
                             wayCount++;
@@ -87,19 +112,19 @@ namespace HeavyOutsideTraffic
 
             if (data.m_position.x > 8600)
             {
-                    return (float)(HeavyOutsideTraffic.aTraffic + ((float)instance2.m_randomizer.Int32(40) / 100f)) * roadIdex;
+                    return (float)(HeavyOutsideTraffic.aTraffic + ((float)instance2.m_randomizer.Int32(60) / 100f)) * roadIdex;
             }
             else if (data.m_position.z > 8600)
             {
-                    return (float)(HeavyOutsideTraffic.bTraffic + ((float)instance2.m_randomizer.Int32(40) / 100f)) * roadIdex;
+                    return (float)(HeavyOutsideTraffic.bTraffic + ((float)instance2.m_randomizer.Int32(60) / 100f)) * roadIdex;
             }
             else if (data.m_position.x < -8600)
             {
-                    return (float)(HeavyOutsideTraffic.cTraffic + ((float)instance2.m_randomizer.Int32(40) / 100f)) * roadIdex;
+                    return (float)(HeavyOutsideTraffic.cTraffic + ((float)instance2.m_randomizer.Int32(60) / 100f)) * roadIdex;
             }
             else if (data.m_position.z < -8600)
             {
-                    return (float)(HeavyOutsideTraffic.dTraffic + ((float)instance2.m_randomizer.Int32(40) / 100f)) * roadIdex;
+                    return (float)(HeavyOutsideTraffic.dTraffic + ((float)instance2.m_randomizer.Int32(60) / 100f)) * roadIdex;
             }
             else
             {
@@ -119,12 +144,10 @@ namespace HeavyOutsideTraffic
             if (vehicleCount * 65536u > instanceCount * 16384u)
             {
                 num = (float)(16384f - vehicleCount)/ 16384f;
-                //DebugLog.LogToFileOnly("vehicleCount = " + vehicleCount.ToString());
             }
             else
             {
                 num = (float)(65536f - instanceCount) / 65536f;
-                //DebugLog.LogToFileOnly("instanceCount = " + instanceCount.ToString());
             }
 
             if (num <= 0)
@@ -132,13 +155,11 @@ namespace HeavyOutsideTraffic
                 num = 0;
             }
 
-            //DebugLog.LogToFileOnly("num = " + num.ToString());
 
             float roadTrafficIdex = checkTrafficLevel(buildingID, ref data);
             int roadTraffic = 0;
-            roadTraffic = (int)(6f * roadTrafficIdex * num + ((float)instance.m_randomizer.Int32(100) / 100f));
+            roadTraffic = (int)(10f * roadTrafficIdex * num + ((float)instance.m_randomizer.Int32(100) / 100f));
 
-            //DebugLog.LogToFileOnly("roadTraffic = " + roadTraffic.ToString());
             if (((data.m_flags & Building.Flags.Incoming) != Building.Flags.None)  && ((data.m_flags & Building.Flags.Outgoing) != Building.Flags.None))
             {
                 TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
@@ -196,8 +217,6 @@ namespace HeavyOutsideTraffic
                     instance2.AddOutgoingOffer(TransferManager.TransferReason.DummyCar, offer2);
                 }
             }
-
-            //DebugLog.LogToFileOnly("outside connection building is " + buildingID.ToString() + data.m_flags.ToString());
         }
 
     }
