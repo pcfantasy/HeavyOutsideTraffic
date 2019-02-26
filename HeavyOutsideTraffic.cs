@@ -1,4 +1,6 @@
-﻿using ColossalFramework.UI;
+﻿using ColossalFramework;
+using ColossalFramework.Globalization;
+using ColossalFramework.UI;
 using ICities;
 using System;
 using System.Collections.Generic;
@@ -46,7 +48,15 @@ namespace HeavyOutsideTraffic
         public void OnSettingsUI(UIHelperBase helper)
         {
             LoadSetting();
-            HeavyOutsideTrafficThreading.CheckLanguage();
+
+            if (SingletonLite<LocaleManager>.instance.language.Contains("zh"))
+            {
+                Language.LanguageSwitch(1);
+            }
+            else
+            {
+                Language.LanguageSwitch(0);
+            }
             UIHelperBase group = helper.AddGroup(Language.Strings[0]);
             group.AddDropdown(Language.Strings[4], new string[] { Language.Strings[5], Language.Strings[6], Language.Strings[7] }, aTraffic, (index) => GetEffortIdex(index));
 
