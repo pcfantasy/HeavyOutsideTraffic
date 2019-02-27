@@ -84,7 +84,6 @@ namespace HeavyOutsideTraffic
             {
                 Loader.RevertDetour();
             }
-
             SaveSetting();
         }
 

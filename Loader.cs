@@ -125,7 +125,7 @@ namespace HeavyOutsideTraffic
 
         public static void Detour()
         {
-            if (HeavyOutsideTraffic.disableCollisionCheck && !isDetour)
+            if (HeavyOutsideTraffic.disableCollisionCheck && !isDetour && isGuiRunning)
             {
                 if (!Check3rdPartyModLoaded("AdvancedJunctionRule", true))
                 {
