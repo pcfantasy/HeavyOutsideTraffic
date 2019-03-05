@@ -112,19 +112,19 @@ namespace HeavyOutsideTraffic
 
             if (data.m_position.x > 8600)
             {
-                    return (float)(HeavyOutsideTraffic.aTraffic + ((float)instance2.m_randomizer.Int32(60) / 100f)) * roadIdex;
+                    return (float)(HeavyOutsideTraffic.aTraffic + ((float)instance2.m_randomizer.Int32(50) / 100f)) * roadIdex;
             }
             else if (data.m_position.z > 8600)
             {
-                    return (float)(HeavyOutsideTraffic.bTraffic + ((float)instance2.m_randomizer.Int32(60) / 100f)) * roadIdex;
+                    return (float)(HeavyOutsideTraffic.bTraffic + ((float)instance2.m_randomizer.Int32(50) / 100f)) * roadIdex;
             }
             else if (data.m_position.x < -8600)
             {
-                    return (float)(HeavyOutsideTraffic.cTraffic + ((float)instance2.m_randomizer.Int32(60) / 100f)) * roadIdex;
+                    return (float)(HeavyOutsideTraffic.cTraffic + ((float)instance2.m_randomizer.Int32(50) / 100f)) * roadIdex;
             }
             else if (data.m_position.z < -8600)
             {
-                    return (float)(HeavyOutsideTraffic.dTraffic + ((float)instance2.m_randomizer.Int32(60) / 100f)) * roadIdex;
+                    return (float)(HeavyOutsideTraffic.dTraffic + ((float)instance2.m_randomizer.Int32(50) / 100f)) * roadIdex;
             }
             else
             {
@@ -155,10 +155,9 @@ namespace HeavyOutsideTraffic
                 num = 0;
             }
 
-
             float roadTrafficIdex = checkTrafficLevel(buildingID, ref data);
             int roadTraffic = 0;
-            roadTraffic = (int)(10f * roadTrafficIdex * num + ((float)instance.m_randomizer.Int32(100) / 100f));
+            roadTraffic = (int)(8f * roadTrafficIdex * num + ((float)instance.m_randomizer.Int32(100) / 100f));
 
             if (((data.m_flags & Building.Flags.Incoming) != Building.Flags.None)  && ((data.m_flags & Building.Flags.Outgoing) != Building.Flags.None))
             {
@@ -166,12 +165,11 @@ namespace HeavyOutsideTraffic
                 offer.Building = buildingID;
                 Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.DummyCar, offer);
                 Singleton<TransferManager>.instance.RemoveOutgoingOffer(TransferManager.TransferReason.DummyCar, offer);
-
                 TransferManager.TransferOffer offer2 = default(TransferManager.TransferOffer);
                 offer2.Building = buildingID;
                 offer2.Position = data.m_position * ((float)instance.m_randomizer.Int32(100, 400) * 0.01f);
                 offer2.Active = false;
-                offer2.Priority = 7;
+                offer2.Priority = instance.m_randomizer.Int32(0, 7);
 
                 if (roadTraffic > 0)
                 {
@@ -186,12 +184,11 @@ namespace HeavyOutsideTraffic
                 TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
                 offer.Building = buildingID;
                 Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.DummyCar, offer);
-
                 TransferManager.TransferOffer offer2 = default(TransferManager.TransferOffer);
                 offer2.Building = buildingID;
                 offer2.Position = data.m_position * ((float)instance.m_randomizer.Int32(100, 400) * 0.01f);
                 offer2.Active = false;
-                offer2.Priority = 7;
+                offer2.Priority = instance.m_randomizer.Int32(0, 7);
                 if (roadTraffic > 0)
                 {
                     offer2.Amount = roadTraffic;
@@ -204,13 +201,11 @@ namespace HeavyOutsideTraffic
                 TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
                 offer.Building = buildingID;
                 Singleton<TransferManager>.instance.RemoveOutgoingOffer(TransferManager.TransferReason.DummyCar, offer);
-
-
                 TransferManager.TransferOffer offer2 = default(TransferManager.TransferOffer);
                 offer2.Building = buildingID;
                 offer2.Position = data.m_position * ((float)instance.m_randomizer.Int32(100, 400) * 0.01f);
                 offer2.Active = true;
-                offer2.Priority = 7;
+                offer2.Priority = instance.m_randomizer.Int32(0, 7);
                 if (roadTraffic > 0)
                 {
                     offer2.Amount = roadTraffic;
