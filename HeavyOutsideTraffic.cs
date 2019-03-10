@@ -25,7 +25,7 @@ namespace HeavyOutsideTraffic
 
         public string Name
         {
-            get { return "HeavyOutsideTraffic"; }
+            get { return "Heavy Outside Traffic"; }
         }
 
         public string Description

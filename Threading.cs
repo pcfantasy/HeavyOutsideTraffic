@@ -60,7 +60,7 @@ namespace HeavyOutsideTraffic
 
                     for (int i = num5; i <= num6; i = i + 1)
                     {
-                        if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && (!instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted)))
+                        if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && (!instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted)) && (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable)))
                         {
                             if (instance.m_buildings.m_buffer[i].Info.m_buildingAI is OutsideConnectionAI)
                             {
