@@ -59,20 +59,23 @@ namespace HeavyOutsideTraffic
             base.OnLevelUnloading();
             if (HeavyOutsideTraffic.IsEnabled)
             {
-                RevertDetour();
-                if (isGuiRunning)
+                if (CurrentLoadMode == LoadMode.LoadGame || CurrentLoadMode == LoadMode.NewGame)
                 {
-                    //remove RoadUI
-                    if (guiPanel != null)
+                    RevertDetour();
+                    if (isGuiRunning)
                     {
-                        if (guiPanel.parent != null)
+                        //remove RoadUI
+                        if (guiPanel != null)
                         {
-                            guiPanel.parent.eventVisibilityChanged -= roadInfo_eventVisibilityChanged;
+                            if (guiPanel.parent != null)
+                            {
+                                guiPanel.parent.eventVisibilityChanged -= roadInfo_eventVisibilityChanged;
+                            }
                         }
-                    }
-                    if (roadWindowGameObject != null)
-                    {
-                        UnityEngine.Object.Destroy(roadWindowGameObject);
+                        if (roadWindowGameObject != null)
+                        {
+                            UnityEngine.Object.Destroy(roadWindowGameObject);
+                        }
                     }
                 }
             }
