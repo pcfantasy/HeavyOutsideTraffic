@@ -1,7 +1,7 @@
 ﻿using ColossalFramework.Plugins;
 using System.IO;
 
-namespace HeavyOutsideTraffic
+namespace HeavyOutsideTraffic.Util
 {
     public static class DebugLog
     {

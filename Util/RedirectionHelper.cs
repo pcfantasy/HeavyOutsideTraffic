@@ -26,7 +26,7 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace HeavyOutsideTraffic
+namespace HeavyOutsideTraffic.Util
 {
     /// <summary>
     /// Helper class to deal with detours. This version is for Unity 5 x64 on Windows.

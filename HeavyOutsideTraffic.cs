@@ -1,6 +1,7 @@
 ﻿using ColossalFramework;
 using ColossalFramework.Globalization;
 using ColossalFramework.UI;
+using HeavyOutsideTraffic.Util;
 using ICities;
 using System;
 using System.Collections.Generic;
@@ -48,29 +49,16 @@ namespace HeavyOutsideTraffic
         public void OnSettingsUI(UIHelperBase helper)
         {
             LoadSetting();
-
-            if (SingletonLite<LocaleManager>.instance.language.Contains("zh"))
-            {
-                Language.LanguageSwitch(1);
-            }
-            else
-            {
-                Language.LanguageSwitch(0);
-            }
-            UIHelperBase group = helper.AddGroup(Language.Strings[0]);
-            group.AddDropdown(Language.Strings[4], new string[] { Language.Strings[5], Language.Strings[6], Language.Strings[7] }, aTraffic, (index) => GetEffortIdex(index));
-
-            UIHelperBase group1 = helper.AddGroup(Language.Strings[1]);
-            group1.AddDropdown(Language.Strings[4], new string[] { Language.Strings[5], Language.Strings[6], Language.Strings[7] }, bTraffic, (index1) => GetEffortIdex1(index1));
-
-            UIHelperBase group2 = helper.AddGroup(Language.Strings[2]);
-            group2.AddDropdown(Language.Strings[4], new string[] { Language.Strings[5], Language.Strings[6], Language.Strings[7] }, cTraffic, (index2) => GetEffortIdex2(index2));
-
-            UIHelperBase group3 = helper.AddGroup(Language.Strings[3]);
-            group3.AddDropdown(Language.Strings[4], new string[] { Language.Strings[5], Language.Strings[6], Language.Strings[7] }, dTraffic, (index3) => GetEffortIdex3(index3));
-
-            UIHelperBase group4 = helper.AddGroup(Language.Strings[13]);
-            group4.AddCheckbox(Language.Strings[14], disableCollisionCheck, (index) => IsDisableCollisionCheck(index));
+            UIHelperBase group = helper.AddGroup(Localization.Get("TRAFFIC_SELECT"));
+            group.AddDropdown(Localization.Get("SIDEA_TRAFFIC"), new string[] { Localization.Get("LOW_TRAFFIC"), Localization.Get("MEDIUM_TRAFFIC"), Localization.Get("HEAVY_TRAFFIC") }, aTraffic, (index) => GetEffortIdex(index));
+            UIHelperBase group1 = helper.AddGroup(Localization.Get("TRAFFIC_SELECT"));
+            group1.AddDropdown(Localization.Get("SIDEB_TRAFFIC"), new string[] { Localization.Get("LOW_TRAFFIC"), Localization.Get("MEDIUM_TRAFFIC"), Localization.Get("HEAVY_TRAFFIC") }, bTraffic, (index1) => GetEffortIdex1(index1));
+            UIHelperBase group2 = helper.AddGroup(Localization.Get("TRAFFIC_SELECT"));
+            group2.AddDropdown(Localization.Get("SIDEC_TRAFFIC"), new string[] { Localization.Get("LOW_TRAFFIC"), Localization.Get("MEDIUM_TRAFFIC"), Localization.Get("HEAVY_TRAFFIC") }, cTraffic, (index2) => GetEffortIdex2(index2));
+            UIHelperBase group3 = helper.AddGroup(Localization.Get("TRAFFIC_SELECT"));
+            group3.AddDropdown(Localization.Get("SIDED_TRAFFIC"), new string[] { Localization.Get("LOW_TRAFFIC"), Localization.Get("MEDIUM_TRAFFIC"), Localization.Get("HEAVY_TRAFFIC") }, dTraffic, (index3) => GetEffortIdex3(index3));
+            UIHelperBase group4 = helper.AddGroup(Localization.Get("DISABLE_COLLISION_CHECK_DISCRIPTION"));
+            group4.AddCheckbox(Localization.Get("DISABLE_COLLISION_CHECK_ENABLE"), disableCollisionCheck, (index) => IsDisableCollisionCheck(index));
         }
 
         public void IsDisableCollisionCheck(bool index)

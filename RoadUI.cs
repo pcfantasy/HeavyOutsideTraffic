@@ -1,5 +1,6 @@
 ﻿using ColossalFramework;
 using ColossalFramework.UI;
+using HeavyOutsideTraffic.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +61,7 @@ namespace HeavyOutsideTraffic
         private void ShowOnGui()
         {
             this.Type = base.AddUIComponent<UILabel>();
-            this.Type.text = Language.Strings[8];
+            this.Type.text = Localization.Get("TYPE");
             this.Type.relativePosition = new Vector3(SPACING, 20f);
             this.Type.autoSize = true;
         }
@@ -83,19 +84,19 @@ namespace HeavyOutsideTraffic
                     {
                         if (x > 8000)
                         {
-                            this.Type.text = Language.Strings[8] + Language.Strings[9];
+                            this.Type.text = Localization.Get("TYPE") + ": " + Localization.Get("A_OUTSIDE");
                         }
                         else if (z > 8000)
                         {
-                            this.Type.text = Language.Strings[8] + Language.Strings[10];
+                            this.Type.text = Localization.Get("TYPE") + ": " + Localization.Get("B_OUTSIDE");
                         }
                         else if (x < -8000)
                         {
-                            this.Type.text = Language.Strings[8] + Language.Strings[11];
+                            this.Type.text = Localization.Get("TYPE") + ": " + Localization.Get("C_OUTSIDE");
                         }
                         else if (z < -8000)
                         {
-                            this.Type.text = Language.Strings[8] + Language.Strings[12];
+                            this.Type.text = Localization.Get("TYPE") + ": " + Localization.Get("D_OUTSIDE");
                         }
                         else
                         {

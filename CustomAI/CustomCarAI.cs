@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace HeavyOutsideTraffic
+namespace HeavyOutsideTraffic.CustomAI
 {
     class CustomCarAI
     {

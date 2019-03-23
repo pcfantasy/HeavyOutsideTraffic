@@ -8,24 +8,21 @@ using System;
 using System.Linq;
 using ColossalFramework.Math;
 using System.Collections.Generic;
+using HeavyOutsideTraffic.Util;
+using HeavyOutsideTraffic.CustomAI;
 
 namespace HeavyOutsideTraffic
 {
     public class Loader : LoadingExtensionBase
     {
         public static LoadMode CurrentLoadMode;
-
         public static UIPanel roadInfo;
-
         public static GameObject roadWindowGameObject;
-
         public static RoadUI guiPanel;
-
         public static bool isGuiRunning = false;
-
         public static bool isDetour = false;
-
         public static RedirectCallsState state1;
+        public static bool HarmonyDetourInited = false;
 
         public override void OnCreated(ILoading loading)
         {
@@ -44,6 +41,7 @@ namespace HeavyOutsideTraffic
                     DebugLog.LogToFileOnly("OnLevelLoaded");
                     SetupRoadGui();
                     Detour();
+                    HarmonyInitDetour();
                     HeavyOutsideTraffic.LoadSetting();
                     if (mode == LoadMode.NewGame)
                     {
@@ -53,7 +51,6 @@ namespace HeavyOutsideTraffic
             }
         }
 
-
         public override void OnLevelUnloading()
         {
             base.OnLevelUnloading();
@@ -62,6 +59,7 @@ namespace HeavyOutsideTraffic
                 if (CurrentLoadMode == LoadMode.LoadGame || CurrentLoadMode == LoadMode.NewGame)
                 {
                     RevertDetour();
+                    HarmonyRevertDetour();
                     if (isGuiRunning)
                     {
                         //remove RoadUI
@@ -88,7 +86,6 @@ namespace HeavyOutsideTraffic
             base.OnReleased();
         }
 
-
         public static void SetupRoadGui()
         {
             roadWindowGameObject = new GameObject("roadWindowObject");
@@ -107,7 +104,6 @@ namespace HeavyOutsideTraffic
             roadInfo.eventVisibilityChanged += roadInfo_eventVisibilityChanged;
             Loader.isGuiRunning = true;
         }
-
 
         public static void roadInfo_eventVisibilityChanged(UIComponent component, bool value)
         {
@@ -163,6 +159,26 @@ namespace HeavyOutsideTraffic
                     RedirectionHelper.RevertRedirect(srcMethod1, state1);
                 }
                 isDetour = false;
+            }
+        }
+
+        public void HarmonyInitDetour()
+        {
+            if (!HarmonyDetourInited)
+            {
+                DebugLog.LogToFileOnly("Init harmony detours");
+                HarmonyDetours.Apply();
+                HarmonyDetourInited = true;
+            }
+        }
+
+        public void HarmonyRevertDetour()
+        {
+            if (HarmonyDetourInited)
+            {
+                DebugLog.LogToFileOnly("Revert harmony detours");
+                HarmonyDetours.DeApply();
+                HarmonyDetourInited = false;
             }
         }
 

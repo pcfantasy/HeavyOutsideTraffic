@@ -3,3 +3,4 @@
 *.cache
 .vs/HeavyOutsideTraffic/v14/.suo
 *.pdb
+*.xml

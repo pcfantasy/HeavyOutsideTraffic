@@ -1,77 +1,19 @@
 ﻿using ColossalFramework;
-using ColossalFramework.Globalization;
-using ICities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UnityEngine;
 
-namespace HeavyOutsideTraffic
+namespace HeavyOutsideTraffic.CustomAI
 {
-    public class HeavyOutsideTrafficThreading : ThreadingExtensionBase
+    public class CustomOutsideConnectionAI
     {
-        public override void OnBeforeSimulationFrame()
+        public static void OutsideConnectionAISimulationStepPostFix(ushort buildingID, ref Building data)
         {
-            base.OnBeforeSimulationFrame();
-            if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
+            if (data.Info.m_class.m_service == ItemClass.Service.Road)
             {
-                if (HeavyOutsideTraffic.IsEnabled)
-                {
-                    //Check language
-                    CheckLanguage();
-                }
-            }
-        }
-
-        public static void CheckLanguage()
-        {
-            if (SingletonLite<LocaleManager>.instance.language.Contains("zh") && (HeavyOutsideTraffic.languageIdex == 1))
-            {
-            }
-            else if (!SingletonLite<LocaleManager>.instance.language.Contains("zh") && (HeavyOutsideTraffic.languageIdex != 1))
-            {
-            }
-            else
-            {
-                HeavyOutsideTraffic.languageIdex = (byte)(SingletonLite<LocaleManager>.instance.language.Contains("zh") ? 1 : 0);
-                Language.LanguageSwitch((byte)HeavyOutsideTraffic.languageIdex);
-            }
-        }
-
-        public override void OnAfterSimulationFrame()
-        {
-            base.OnAfterSimulationFrame();
-            if (Loader.CurrentLoadMode == LoadMode.LoadGame || Loader.CurrentLoadMode == LoadMode.NewGame)
-            {
-                if (HeavyOutsideTraffic.IsEnabled)
-                {
-                    uint currentFrameIndex = Singleton<SimulationManager>.instance.m_currentFrameIndex;
-                    int num4 = (int)(currentFrameIndex & 255u);
-                    int num5 = num4 * 192;
-                    int num6 = (num4 + 1) * 192 - 1;
-                    BuildingManager instance = Singleton<BuildingManager>.instance;
-
-                    if (num4 == 255)
-                    {
-                        RoadUI.refeshOnce = true;
-                    }
-
-                    for (int i = num5; i <= num6; i = i + 1)
-                    {
-                        if (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Created) && (!instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Deleted)) && (instance.m_buildings.m_buffer[i].m_flags.IsFlagSet(Building.Flags.Untouchable)))
-                        {
-                            if (instance.m_buildings.m_buffer[i].Info.m_buildingAI is OutsideConnectionAI)
-                            {
-                                if (instance.m_buildings.m_buffer[i].Info.m_class.m_service == ItemClass.Service.Road)
-                                {
-                                    ProcessDummyTraffic((ushort)i, ref instance.m_buildings.m_buffer[i]);
-                                }
-                            }
-                        }
-                    }
-                }
+                ProcessDummyTraffic(buildingID, ref data);
             }
         }
 
@@ -98,7 +40,7 @@ namespace HeavyOutsideTraffic
                 }
             }
 
-            if (wayCount !=0)
+            if (wayCount != 0)
             {
                 roadIdex = wayCount / 3f;
             }
@@ -112,19 +54,19 @@ namespace HeavyOutsideTraffic
 
             if (data.m_position.x > 8600)
             {
-                    return (float)(HeavyOutsideTraffic.aTraffic + ((float)instance2.m_randomizer.Int32(50) / 100f)) * roadIdex;
+                return (float)(HeavyOutsideTraffic.aTraffic + ((float)instance2.m_randomizer.Int32(50) / 100f)) * roadIdex;
             }
             else if (data.m_position.z > 8600)
             {
-                    return (float)(HeavyOutsideTraffic.bTraffic + ((float)instance2.m_randomizer.Int32(50) / 100f)) * roadIdex;
+                return (float)(HeavyOutsideTraffic.bTraffic + ((float)instance2.m_randomizer.Int32(50) / 100f)) * roadIdex;
             }
             else if (data.m_position.x < -8600)
             {
-                    return (float)(HeavyOutsideTraffic.cTraffic + ((float)instance2.m_randomizer.Int32(50) / 100f)) * roadIdex;
+                return (float)(HeavyOutsideTraffic.cTraffic + ((float)instance2.m_randomizer.Int32(50) / 100f)) * roadIdex;
             }
             else if (data.m_position.z < -8600)
             {
-                    return (float)(HeavyOutsideTraffic.dTraffic + ((float)instance2.m_randomizer.Int32(50) / 100f)) * roadIdex;
+                return (float)(HeavyOutsideTraffic.dTraffic + ((float)instance2.m_randomizer.Int32(50) / 100f)) * roadIdex;
             }
             else
             {
@@ -133,9 +75,9 @@ namespace HeavyOutsideTraffic
         }
 
 
-        public void ProcessDummyTraffic(ushort buildingID, ref Building data)
+        public static void ProcessDummyTraffic(ushort buildingID, ref Building data)
         {
-            
+
             SimulationManager instance = Singleton<SimulationManager>.instance;
             TransferManager instance2 = Singleton<TransferManager>.instance;
             uint vehicleCount = (uint)Singleton<VehicleManager>.instance.m_vehicleCount;
@@ -143,7 +85,7 @@ namespace HeavyOutsideTraffic
             float num = 0;
             if (vehicleCount * 65536u > instanceCount * 16384u)
             {
-                num = (float)(16384f - vehicleCount)/ 16384f;
+                num = (float)(16384f - vehicleCount) / 16384f;
             }
             else
             {
@@ -159,7 +101,7 @@ namespace HeavyOutsideTraffic
             int roadTraffic = 0;
             roadTraffic = (int)(8f * roadTrafficIdex * num + ((float)instance.m_randomizer.Int32(100) / 100f));
 
-            if (((data.m_flags & Building.Flags.Incoming) != Building.Flags.None)  && ((data.m_flags & Building.Flags.Outgoing) != Building.Flags.None))
+            if (((data.m_flags & Building.Flags.Incoming) != Building.Flags.None) && ((data.m_flags & Building.Flags.Outgoing) != Building.Flags.None))
             {
                 TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
                 offer.Building = buildingID;
@@ -213,6 +155,5 @@ namespace HeavyOutsideTraffic
                 }
             }
         }
-
     }
 }
