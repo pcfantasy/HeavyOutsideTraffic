@@ -135,7 +135,7 @@ namespace HeavyOutsideTraffic
                 else
                 {
                     Assembly as1 = Assembly.Load("AdvancedJunctionRule");
-                    var srcMethod1 = as1.GetType("AdvancedJunctionRule.NewCarAI").GetMethod("DisableCollisionCheck", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
+                    var srcMethod1 = as1.GetType("AdvancedJunctionRule.CustomAI.NewCarAI").GetMethod("DisableCollisionCheck", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
                     var destMethod1 = typeof(CustomCarAI).GetMethod("DisableCollisionCheck", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
                     state1 = RedirectionHelper.RedirectCalls(srcMethod1, destMethod1);
                 }
