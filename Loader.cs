@@ -155,7 +155,7 @@ namespace HeavyOutsideTraffic
                 else
                 {
                     Assembly as1 = Assembly.Load("AdvancedJunctionRule");
-                    var srcMethod1 = as1.GetType("AdvancedJunctionRule.NewCarAI").GetMethod("DisableCollisionCheck", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
+                    var srcMethod1 = as1.GetType("AdvancedJunctionRule.CustomAI.NewCarAI").GetMethod("DisableCollisionCheck", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
                     RedirectionHelper.RevertRedirect(srcMethod1, state1);
                 }
                 isDetour = false;
@@ -168,7 +168,6 @@ namespace HeavyOutsideTraffic
             {
                 DebugLog.LogToFileOnly("Init harmony detours");
                 HarmonyDetours.Apply();
-                HarmonyDetourInited = true;
             }
         }
 
@@ -178,7 +177,6 @@ namespace HeavyOutsideTraffic
             {
                 DebugLog.LogToFileOnly("Revert harmony detours");
                 HarmonyDetours.DeApply();
-                HarmonyDetourInited = false;
             }
         }
 

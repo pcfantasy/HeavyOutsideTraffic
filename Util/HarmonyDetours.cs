@@ -47,6 +47,7 @@ namespace HeavyOutsideTraffic.Util
             harmony.ConditionalPatch(outsideConnectionAISimulationStep,
                 null,
                 new HarmonyMethod(outsideConnectionAISimulationStepPostFix));
+            Loader.HarmonyDetourInited = true;
             DebugLog.LogToFileOnly("Harmony patches applied");
         }
 
@@ -58,6 +59,7 @@ namespace HeavyOutsideTraffic.Util
             harmony.ConditionalUnPatch(outsideConnectionAISimulationStep,
                 null,
                 new HarmonyMethod(outsideConnectionAISimulationStepPostFix));
+            Loader.HarmonyDetourInited = false;
             DebugLog.LogToFileOnly("Harmony patches DeApplied");
         }
     }
