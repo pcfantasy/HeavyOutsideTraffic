@@ -1,0 +1,15 @@
+﻿SIDEA_TRAFFIC	SideA Traffic
+SIDEB_TRAFFIC	SideB Traffic
+SIDEC_TRAFFIC	SideC Traffic
+SIDED_TRAFFIC	SideD Traffic
+TRAFFIC_SELECT	Traffic Select
+LOW_TRAFFIC	Low Traffic
+MEDIUM_TRAFFIC	Medium Traffic
+HEAVY_TRAFFIC	Heavy Traffic
+TYPE	Type
+A_OUTSIDE	A outside
+B_OUTSIDE	B outside
+C_OUTSIDE	C outside
+D_OUTSIDE	D outside
+DISABLE_COLLISION_CHECK_DISCRIPTION	Disable collision check at the edge of the map to avoid traffic congestion
+DISABLE_COLLISION_CHECK_ENABLE	DisableCollisionCheck
