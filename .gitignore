@@ -3,3 +3,9 @@
 .vs/HeavyOutsideTraffic/v14/.suo
 *.pdb
 *.xml
+.vs/HeavyOutsideTraffic/v16/.suo
+.vs/HeavyOutsideTraffic/v16/Server/sqlite3/db.lock
+.vs/HeavyOutsideTraffic/v16/Server/sqlite3/storage.ide
+.vs/HeavyOutsideTraffic/v16/Server/sqlite3/storage.ide-shm
+.vs/HeavyOutsideTraffic/v16/Server/sqlite3/storage.ide-wal
+obj/Release/HeavyOutsideTraffic.csproj.CopyComplete

@@ -175,32 +175,32 @@ namespace HeavyOutsideTraffic
         {
             aTraffic = index;
             SaveSetting();
-            MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
-            method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
+            //MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
+            //method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
         }
 
         public void GetEffortIdex1(int index1)
         {
             bTraffic = index1;
             SaveSetting();
-            MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
-            method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
+            //MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
+            //method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
         }
 
         public void GetEffortIdex2(int index2)
         {
             cTraffic = index2;
             SaveSetting();
-            MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
-            method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
+            //MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
+            //method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
         }
 
         public void GetEffortIdex3(int index3)
         {
             dTraffic = index3;
             SaveSetting();
-            MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
-            method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
+            //MethodInfo method = typeof(OptionsMainPanel).GetMethod("OnLocaleChanged", BindingFlags.Instance | BindingFlags.NonPublic);
+            //method.Invoke(UIView.library.Get<OptionsMainPanel>("OptionsPanel"), new object[0]);
         }
     }
 }
