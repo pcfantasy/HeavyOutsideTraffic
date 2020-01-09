@@ -1,4 +1,5 @@
 ﻿using ColossalFramework;
+using HeavyOutsideTraffic.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,20 +24,12 @@ namespace HeavyOutsideTraffic.CustomAI
             NetManager instance = Singleton<NetManager>.instance;
             float roadIdex = 1f;
             int wayCount = 0;
-            for (int i = 0; i < 8; i++)
+            NetInfo info = instance.m_nodes.m_buffer[(int)num].Info;
+            for (int j = 0; j < info.m_lanes.Length; j++)
             {
-                ushort segment = instance.m_nodes.m_buffer[(int)num].GetSegment(i);
-                if (segment != 0)
+                if (info.m_lanes[j].m_laneType.IsFlagSet(NetInfo.LaneType.Vehicle) && info.m_lanes[j].m_vehicleType.IsFlagSet(VehicleInfo.VehicleType.Car))
                 {
-                    NetInfo info = instance.m_segments.m_buffer[(int)segment].Info;
-                    for (int j = 0; j < info.m_lanes.Length; j++)
-                    {
-                        if (info.m_lanes[j].m_direction != NetInfo.Direction.None)
-                        {
-                            wayCount++;
-                        }
-                    }
-                    break;
+                    wayCount++;
                 }
             }
 
@@ -47,7 +40,7 @@ namespace HeavyOutsideTraffic.CustomAI
 
             if (((data.m_flags & Building.Flags.Incoming) != Building.Flags.None) && ((data.m_flags & Building.Flags.Outgoing) != Building.Flags.None))
             {
-                roadIdex = roadIdex * 0.5f;
+                roadIdex *= 0.5f;
             }
 
             SimulationManager instance2 = Singleton<SimulationManager>.instance;
@@ -112,7 +105,6 @@ namespace HeavyOutsideTraffic.CustomAI
                 offer2.Position = data.m_position * ((float)instance.m_randomizer.Int32(100, 400) * 0.01f);
                 offer2.Active = false;
                 offer2.Priority = instance.m_randomizer.Int32(0, 7);
-
                 if (roadTraffic > 0)
                 {
                     offer2.Amount = roadTraffic;
