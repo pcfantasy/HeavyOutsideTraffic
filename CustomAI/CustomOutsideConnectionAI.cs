@@ -76,9 +76,10 @@ namespace HeavyOutsideTraffic.CustomAI
             uint vehicleCount = (uint)Singleton<VehicleManager>.instance.m_vehicleCount;
             uint instanceCount = (uint)Singleton<CitizenManager>.instance.m_instanceCount;
             float num = 0;
-            if (vehicleCount * 65536u > instanceCount * 16384u)
+            uint maxVehicleCount = Singleton<VehicleManager>.instance.m_vehicles.m_size;
+            if (vehicleCount * 65536u > instanceCount * maxVehicleCount)
             {
-                num = (float)(16384f - vehicleCount) / 16384f;
+                num = (float)(maxVehicleCount - vehicleCount) / maxVehicleCount;
             }
             else
             {
