@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Locales\en.txt" />
+    <Content Include="Locales\zh-cn.txt" />
     <Content Include="Locales\zh.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
