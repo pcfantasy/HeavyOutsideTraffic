@@ -20,8 +20,6 @@ namespace HeavyOutsideTraffic
         public static GameObject roadWindowGameObject;
         public static RoadUI guiPanel;
         public static bool isGuiRunning = false;
-        public static bool isDetour = false;
-        public static RedirectCallsState state1;
         public static bool HarmonyDetourInited = false;
 
         public override void OnCreated(ILoading loading)
@@ -40,7 +38,6 @@ namespace HeavyOutsideTraffic
                 {
                     DebugLog.LogToFileOnly("OnLevelLoaded");
                     SetupRoadGui();
-                    Detour();
                     HarmonyInitDetour();
                     HeavyOutsideTraffic.LoadSetting();
                     if (mode == LoadMode.NewGame)
@@ -58,7 +55,6 @@ namespace HeavyOutsideTraffic
             {
                 if (CurrentLoadMode == LoadMode.LoadGame || CurrentLoadMode == LoadMode.NewGame)
                 {
-                    RevertDetour();
                     HarmonyRevertDetour();
                     if (isGuiRunning)
                     {
@@ -122,46 +118,6 @@ namespace HeavyOutsideTraffic
             }
         }
 
-        public static void Detour()
-        {
-            if (HeavyOutsideTraffic.disableCollisionCheck && !isDetour && isGuiRunning)
-            {
-                if (!Check3rdPartyModLoaded("AdvancedJunctionRule", true))
-                {
-                    var srcMethod1 = typeof(CarAI).GetMethod("DisableCollisionCheck", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
-                    var destMethod1 = typeof(CustomCarAI).GetMethod("DisableCollisionCheck", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
-                    state1 = RedirectionHelper.RedirectCalls(srcMethod1, destMethod1);
-                }
-                else
-                {
-                    Assembly as1 = Assembly.Load("AdvancedJunctionRule");
-                    var srcMethod1 = as1.GetType("AdvancedJunctionRule.CustomAI.NewCarAI").GetMethod("DisableCollisionCheck", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
-                    var destMethod1 = typeof(CustomCarAI).GetMethod("DisableCollisionCheck", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
-                    state1 = RedirectionHelper.RedirectCalls(srcMethod1, destMethod1);
-                }
-                isDetour = true;
-            }
-        }
-
-        public static void RevertDetour()
-        {
-            if (isDetour)
-            {
-                if (!Check3rdPartyModLoaded("AdvancedJunctionRule", true))
-                {
-                    var srcMethod1 = typeof(CarAI).GetMethod("DisableCollisionCheck", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
-                    RedirectionHelper.RevertRedirect(srcMethod1, state1);
-                }
-                else
-                {
-                    Assembly as1 = Assembly.Load("AdvancedJunctionRule");
-                    var srcMethod1 = as1.GetType("AdvancedJunctionRule.CustomAI.NewCarAI").GetMethod("DisableCollisionCheck", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static, null, new Type[] { typeof(ushort), typeof(Vehicle).MakeByRefType() }, null);
-                    RedirectionHelper.RevertRedirect(srcMethod1, state1);
-                }
-                isDetour = false;
-            }
-        }
-
         public void HarmonyInitDetour()
         {
             if (!HarmonyDetourInited)
@@ -178,39 +134,6 @@ namespace HeavyOutsideTraffic
                 DebugLog.LogToFileOnly("Revert harmony detours");
                 HarmonyDetours.DeApply();
             }
-        }
-
-        public static bool Check3rdPartyModLoaded(string namespaceStr, bool printAll = false)
-        {
-            bool thirdPartyModLoaded = false;
-
-            var loadingWrapperLoadingExtensionsField = typeof(LoadingWrapper).GetField("m_LoadingExtensions", BindingFlags.NonPublic | BindingFlags.Instance);
-            List<ILoadingExtension> loadingExtensions = (List<ILoadingExtension>)loadingWrapperLoadingExtensionsField.GetValue(Singleton<LoadingManager>.instance.m_LoadingWrapper);
-
-            if (loadingExtensions != null)
-            {
-                foreach (ILoadingExtension extension in loadingExtensions)
-                {
-                    if (printAll)
-                        DebugLog.LogToFileOnly($"Detected extension: {extension.GetType().Name} in namespace {extension.GetType().Namespace}");
-                    if (extension.GetType().Namespace == null)
-                        continue;
-
-                    var nsStr = extension.GetType().Namespace.ToString();
-                    if (namespaceStr.Equals(nsStr))
-                    {
-                        DebugLog.LogToFileOnly($"The mod '{namespaceStr}' has been detected.");
-                        thirdPartyModLoaded = true;
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                DebugLog.LogToFileOnly("Could not get loading extensions");
-            }
-
-            return thirdPartyModLoaded;
         }
     }
 }

@@ -7,17 +7,21 @@ using UnityEngine;
 
 namespace HeavyOutsideTraffic.CustomAI
 {
-    class CustomCarAI
+    public class CustomCarAI
     {
-        private static bool DisableCollisionCheck(ushort vehicleID, ref Vehicle vehicleData)
+        public static bool CarAIDisableCollisionCheckPrefix(ushort vehicleID, ref Vehicle vehicleData, ref bool __result)
         {
-            float num = Mathf.Max(Mathf.Abs(vehicleData.m_targetPos3.x), Mathf.Abs(vehicleData.m_targetPos3.z));
-            float num2 = 8640f;
-            if (num > num2 - 600f)
+            if (HeavyOutsideTraffic.disableCollisionCheck)
             {
-                return true;
+                float num = Mathf.Max(Mathf.Abs(vehicleData.m_targetPos3.x), Mathf.Abs(vehicleData.m_targetPos3.z));
+                float num2 = 8640f;
+                if (num > num2 - 600f)
+                {
+                    __result = true;
+                    return false;
+                }
             }
-            return false;
+            return true;
         }
     }
 }

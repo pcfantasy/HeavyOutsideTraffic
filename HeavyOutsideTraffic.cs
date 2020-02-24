@@ -64,14 +64,6 @@ namespace HeavyOutsideTraffic
         public void IsDisableCollisionCheck(bool index)
         {
             disableCollisionCheck = index;
-            if (index)
-            {
-                Loader.Detour();
-            }
-            else
-            {
-                Loader.RevertDetour();
-            }
             SaveSetting();
         }
 
